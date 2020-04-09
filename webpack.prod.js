@@ -1,69 +1,81 @@
-const path = require("path");
-const common = require("./webpack.config");
-const merge = require("webpack-merge");
-const {CleanWebpackPlugin} = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-var HtmlWebpackPlugin = require("html-webpack-plugin");
-
+const path = require('path');
+const common = require('./webpack.config');
+const merge = require('webpack-merge');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(common, {
-  mode: "production",
-  output: {
-    filename: "[name].[contentHash].bundle.js",
-    path: path.resolve(__dirname, "dist")
-  },
-  optimization: {
-    minimizer: [
-      new OptimizeCssAssetsPlugin(),
-      new TerserPlugin(),
-      new HtmlWebpackPlugin({
-        template: "./src/pages/template.html",
-        chunks: ["main", "vendor"],
-        minify: {
-          removeAttributeQuotes: true,
-          collapseInlineTagWhitespace: true,
-          removeComments: true,
-        }
-      },
-      ),
+	mode: 'production',
+	output: {
+		filename: '[name].[contentHash].bundle.js',
+		path: path.resolve(__dirname, 'dist')
+	},
+	optimization: {
+		minimizer: [
+			new OptimizeCssAssetsPlugin(),
+			new TerserPlugin(),
+			new HtmlWebpackPlugin({
+				template: './src/pages/index.html',
+				chunks: [ 'main', 'vendor' ],
+				minify: {
+					removeAttributeQuotes: true,
+					collapseInlineTagWhitespace: true,
+					removeComments: true
+				}
+			}),
 
-      new HtmlWebpackPlugin({
-        filename: "contact.html",
-        template: "./src/pages/contact.html",
-        chunks: ["contact", "vendor"],
-        minify: {
-          removeAttributeQuotes: true,
-          collapseInlineTagWhitespace: true,
-          removeComments: true,
-        }
-      },
-      ),
+			new HtmlWebpackPlugin({
+				template: './src/pages/about.html',
+				chunks: [ 'main', 'vendor' ],
+				minify: {
+					removeAttributeQuotes: true,
+					collapseInlineTagWhitespace: true,
+					removeComments: true
+				}
+			}),
+			new HtmlWebpackPlugin({
+				template: './src/pages/projects.html',
+				chunks: [ 'main', 'vendor' ],
+				minify: {
+					removeAttributeQuotes: true,
+					collapseInlineTagWhitespace: true,
+					removeComments: true
+				}
+			}),
 
-    ]
-  },
-  plugins: [
-    new MiniCssExtractPlugin({filename: "[name].[contentHash].css"}),   
-    new CleanWebpackPlugin(),
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader, //3. Exctract CSS into files
-          "css-loader", //2. Turns css into commonjs
-          "sass-loader" //1. Turns sass into css
-        ]
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-            loader: "babel-loader"
-        },
-    },
-    ]
-  }
+			new HtmlWebpackPlugin({
+				filename: 'contact.html',
+				template: './src/pages/contact.html',
+				chunks: [ 'main', 'vendor' ],
+				minify: {
+					removeAttributeQuotes: true,
+					collapseInlineTagWhitespace: true,
+					removeComments: true
+				}
+			})
+		]
+	},
+	plugins: [ new MiniCssExtractPlugin({ filename: '[name].[contentHash].css' }), new CleanWebpackPlugin() ],
+	module: {
+		rules: [
+			{
+				test: /\.scss$/,
+				use: [
+					MiniCssExtractPlugin.loader, //3. Exctract CSS into files
+					'css-loader', //2. Turns css into commonjs
+					'sass-loader' //1. Turns sass into css
+				]
+			},
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader'
+				}
+			}
+		]
+	}
 });

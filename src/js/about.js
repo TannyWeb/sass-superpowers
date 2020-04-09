@@ -2,5 +2,5 @@ import '../scss/main.scss';
 // import "./contact.html";
 import menu from './functions/menu';
 
-console.log('index loaded');
+console.log('about loaded');
 menu();
